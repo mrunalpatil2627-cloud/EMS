@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMS India - Emergency Medical Service</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --primary: #EF4444;
+    --primary-dark: #DC2626;
+    --bg-main: #0F172A;
+    --surface: #1E293B;
+    --surface-hover: #334155;
+    --text-dark: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border: #334155;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --shadow-glow: 0 10px 25px -5px rgba(239, 68, 68, 0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background-color: var(--bg-main); color: var(--text-dark); padding-bottom: 95px; -webkit-font-smoothing: antialiased; }
+
+  .app-header { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 20px; position: sticky; top: 0; z-index: 100; }
+  .header-content { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-icon { width: 42px; height: 42px; background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); flex-shrink: 0; }
+  .brand-text h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; color: white; }
+  .brand-text span { font-size: 10px; background: linear-gradient(135deg, #F59E0B, #D97706); color: white; padding: 2px 7px; border-radius: 20px; font-weight: 800; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .call-btn { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; text-decoration: none; font-weight: 800; font-size: 13px; padding: 10px 18px; border-radius: 30px; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow-glow); transition: all .2s ease; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; }
+  .call-btn:active { transform: scale(0.95); }
+  .pulse { animation: pulse-animation 1.5s infinite; }
+  @keyframes pulse-animation { 0% { transform: scale(1);} 50% { transform: scale(1.2);} 100% { transform: scale(1);} }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+  .search-row { display: flex; gap: 12px; }
+  .search-box { flex: 1; position: relative; }
+  .search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+  .search-input { width: 100%; padding: 14px 16px 14px 48px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--surface); color: white; font-size: 14px; font-weight: 600; outline: none; transition: all .2s; }
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(239, 68, 68, 0.25); }
+  .lang-select { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 14px; font-size: 13px; font-weight: 700; color: white; cursor: pointer; outline: none; }
+
+  .law-banner { background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,150,105,0.05) 100%); border: 1px solid rgba(16,185,129,0.3); border-radius: var(--radius-md); padding: 16px; display: flex; gap: 14px; align-items: center; cursor: pointer; }
+  .law-icon { width: 40px; height: 40px; background: rgba(16,185,129,0.2); color: #34D399; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .law-text h4 { font-size: 13px; font-weight: 700; color: #6EE7B7; margin-bottom: 2px; }
+  .law-text p { font-size: 12px; color: #A7F3D0; line-height: 1.4; }
+
+  .section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (min-width: 600px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px; cursor: pointer; transition: all .25s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .card:hover { background: var(--surface-hover); transform: translateY(-3px); }
+  .card.active { border-color: var(--card-color); background: linear-gradient(145deg, #1E293B, #0F172A); box-shadow: 0 10px 25px -5px var(--card-glow); transform: translateY(-3px); }
+  .card-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--card-bg); color: var(--card-color); box-shadow: inset 0 0 10px rgba(255,255,255,0.1); }
+  .card-info h3 { font-size: 15px; font-weight: 700; color: white; margin-bottom: 2px; }
+  .card-info p { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+  .guide-panel { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; display: flex; flex-direction: column; gap: 20px; animation: fadeIn .3s ease; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px);} to { opacity:1; transform: translateY(0);} }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+  .panel-title { display: flex; align-items: center; gap: 12px; }
+  .panel-title h2 { font-size: 18px; font-weight: 800; color: white; }
+  .panel-actions { display: flex; align-items: center; gap: 8px; }
+  .badge-critical { background: rgba(239,68,68,0.2); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.4); font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .voice-btn { background: rgba(20,184,166,0.15); border: 1px solid rgba(20,184,166,0.4); color: #5EEAD4; font-weight: 700; font-size: 12px; padding: 9px 14px; border-radius: 30px; display: flex; align-items: center; gap: 7px; cursor: pointer; transition: all .2s; }
+  .voice-btn:hover { background: rgba(20,184,166,0.25); }
+  .voice-btn.speaking { background: rgba(20,184,166,0.35); animation: pulse-animation 1s infinite; }
+
+  .video-section { display: flex; flex-direction: column; gap: 8px; }
+  .video-header { display: flex; justify-content: space-between; align-items: center; }
+  .video-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+  .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: var(--radius-md); overflow: hidden; background: #0B1120; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; background: #0B1120; object-fit: cover; }
+
+  .step-list { display: flex; flex-direction: column; gap: 16px; }
+  .step-item { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num { width: 30px; height: 30px; background: linear-gradient(135deg, #EF4444, #B91C1C); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(239,68,68,0.3); }
+  .step-desc { font-size: 14px; line-height: 1.6; color: #CBD5E1; }
+  .step-desc strong { color: white; }
+
+  .dos-donts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+  .box-do { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); border-radius: var(--radius-md); padding: 14px; }
+  .box-dont { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); border-radius: var(--radius-md); padding: 14px; }
+  .box-head { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; margin-bottom: 6px; }
+  .box-do .box-head { color: #34D399; }
+  .box-dont .box-head { color: #FCA5A5; }
+  .box-body { font-size: 12px; line-height: 1.5; }
+  .box-do .box-body { color: #A7F3D0; }
+  .box-dont .box-body { color: #FECACA; }
+
+  /* Generic content panel (Hospitals / Helplines / Rights) */
+  .view { display: none; flex-direction: column; gap: 20px; }
+  .view.active { display: flex; }
+
+  .panel-card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+
+  .locate-btn { background: linear-gradient(135deg, #14B8A6, #0F766E); color: white; font-weight: 800; font-size: 14px; padding: 14px 20px; border-radius: 30px; border: none; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 10px 20px -5px rgba(20,184,166,0.35); width: 100%; }
+  .locate-btn:active { transform: scale(0.98); }
+
+  .status-text { font-size: 13px; color: var(--text-muted); text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+  .hospital-item { background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .hospital-info h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 3px; }
+  .hospital-info p { font-size: 12px; color: var(--text-muted); }
+  .hospital-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .icon-btn { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 14px; flex-shrink: 0; border: none; cursor: pointer; }
+  .icon-btn.call { background: rgba(16,185,129,0.15); color: #34D399; }
+  .icon-btn.map { background: rgba(59,130,246,0.15); color: #60A5FA; }
+
+  .helpline-item { background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+  .helpline-info h4 { font-size: 14px; font-weight: 700; color: white; }
+  .helpline-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .helpline-num { font-size: 20px; font-weight: 800; color: var(--primary); }
+
+  .rights-body { font-size: 14px; line-height: 1.8; color: #CBD5E1; }
+  .rights-body b { color: white; }
+
+  /* SOS Floating Button */
+  .sos-fab { position: fixed; right: 18px; bottom: 100px; width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #EF4444, #991B1B); border: 3px solid rgba(255,255,255,0.25); color: white; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-direction: column; box-shadow: 0 10px 30px -5px rgba(239,68,68,0.6); cursor: pointer; z-index: 95; animation: pulse-animation 2s infinite; letter-spacing: 0.5px; }
+  .sos-fab i { font-size: 16px; margin-bottom: 2px; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.75); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
+  .modal-overlay.active { display: flex; }
+  @media (min-width: 640px) { .modal-overlay { align-items: center; } }
+
+  .modal-box { background: var(--surface); border: 1px solid var(--border); border-top-left-radius: 28px; border-top-right-radius: 28px; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 18px; animation: slideUp .25s ease; }
+  @media (min-width: 640px) { .modal-box { border-radius: 24px; } }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-head { display: flex; justify-content: space-between; align-items: center; }
+  .modal-head h2 { font-size: 18px; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; }
+  .close-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-main); border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+  .big-call-btn { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; text-decoration: none; font-weight: 800; font-size: 16px; padding: 18px; border-radius: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--shadow-glow); }
+
+  .contact-item { background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .contact-info h4 { font-size: 14px; font-weight: 700; color: white; }
+  .contact-info p { font-size: 12px; color: var(--text-muted); }
+  .contact-actions { display: flex; gap: 6px; }
+  .icon-btn.sms { background: rgba(245,158,11,0.15); color: #FBBF24; }
+  .icon-btn.del { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+
+  .add-contact-btn { background: var(--bg-main); border: 1px dashed var(--border); color: var(--text-muted); font-weight: 700; font-size: 13px; padding: 12px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .add-contact-btn:hover { color: white; border-color: var(--primary); }
+
+  .contact-form { display: none; flex-direction: column; gap: 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; }
+  .contact-form.active { display: flex; }
+  .contact-form input { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; color: white; font-size: 14px; outline: none; }
+  .contact-form input:focus { border-color: var(--primary); }
+  .form-row { display: flex; gap: 10px; }
+  .form-row button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; }
+  .btn-save { background: linear-gradient(135deg,#10B981,#059669); color: white; }
+  .btn-cancel { background: var(--surface-hover); color: var(--text-muted); }
+
+  .empty-note { font-size: 12px; color: var(--text-muted); text-align: center; padding: 10px; line-height: 1.5; }
+
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--border); padding: 10px 0; z-index: 90; }
+  .nav-items { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-around; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 600; transition: color .2s; background: none; border: none; cursor: pointer; }
+  .nav-item.active, .nav-item:hover { color: var(--primary); }
+  .nav-item i { font-size: 18px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-content">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+      <div class="brand-text"><h1>EMS<span>India</span></h1></div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="mr">मराठी</option>
+      </select>
+      <a href="tel:108" class="call-btn"><i class="fa-solid fa-phone pulse"></i> <span id="callBtnText">CALL 108</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="search-row">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchInput" class="search-input" onkeyup="filterCards()">
+    </div>
+  </div>
+
+  <div class="law-banner" onclick="navigate('rights')">
+    <div class="law-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="law-text">
+      <h4 id="lawTitle">Protected by Good Samaritan Law</h4>
+      <p id="lawText">Bystanders rendering emergency aid are legally protected from police harassment or medical costs.</p>
+    </div>
+  </div>
+
+  <!-- GUIDE VIEW -->
+  <div class="view active" id="view-guide">
+    <div class="section-title" id="selectEmergencyTitle">Select Medical Emergency</div>
+
+    <div class="grid" id="emergencyGrid"></div>
+
+    <div class="guide-panel" id="guidePanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <i class="fa-solid fa-circle-play" style="color: var(--primary); font-size: 20px;"></i>
+          <h2 id="guideTitle">Burns First Aid</h2>
+        </div>
+        <div class="panel-actions">
+          <button class="voice-btn" id="voiceBtn" onclick="toggleSpeak()">
+            <i class="fa-solid fa-volume-high" id="voiceIcon"></i>
+            <span id="voiceBtnText">Read Aloud</span>
+          </button>
+          <span class="badge-critical" id="goldenBadge">Golden Minutes Protocol</span>
+        </div>
+      </div>
+
+      <div class="video-section">
+        <div class="video-header">
+          <span class="video-label" id="videoLabel"><i class="fa-solid fa-video"></i> Animated Action Demo</span>
+          <span style="font-size: 11px; color: var(--text-muted);" id="videoSub">Visual Protocol</span>
+        </div>
+        <div class="video-wrapper">
+          <video id="guideVideo" controls playsinline preload="metadata" muted>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <div class="step-list" id="stepList"></div>
+      <div class="dos-donts" id="dosDonts"></div>
+    </div>
+  </div>
+
+  <!-- HOSPITALS VIEW -->
+  <div class="view" id="view-hospitals">
+    <div class="section-title" id="hospitalsTitle">Nearby Hospitals</div>
+    <div class="panel-card">
+      <button class="locate-btn" id="locateBtn" onclick="findHospitals()">
+        <i class="fa-solid fa-location-crosshairs"></i>
+        <span id="locateBtnText">Find Nearby Hospitals</span>
+      </button>
+      <div class="status-text" id="hospitalStatus" style="display:none;"></div>
+      <div id="hospitalResults" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+  </div>
+
+  <!-- HELPLINES VIEW -->
+  <div class="view" id="view-helplines">
+    <div class="section-title" id="helplinesTitle">National Emergency Helplines</div>
+    <div class="panel-card" id="helplinesList"></div>
+  </div>
+
+  <!-- RIGHTS VIEW -->
+  <div class="view" id="view-rights">
+    <div class="section-title" id="rightsTitle">Your Legal Rights as a Helper</div>
+    <div class="panel-card">
+      <div class="rights-body" id="rightsBody"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- SOS Floating Button -->
+<button class="sos-fab" onclick="openSOS()">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <span>SOS</span>
+</button>
+
+<!-- SOS Modal -->
+<div class="modal-overlay" id="sosModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2><i class="fa-solid fa-triangle-exclamation" style="color:var(--primary);"></i> <span id="sosModalTitle">Emergency SOS</span></h2>
+      <button class="close-btn" onclick="closeSOS()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <a href="tel:108" class="big-call-btn"><i class="fa-solid fa-phone pulse"></i> <span id="sosCallBtnText">CALL AMBULANCE 108</span></a>
+
+    <div>
+      <div class="section-title" style="margin-bottom:10px;" id="contactsTitle">Emergency Contacts</div>
+      <div id="contactsList" style="display:flex; flex-direction:column; gap:10px;"></div>
+      <div id="noContactsNote" class="empty-note" style="display:none;"></div>
+
+      <div style="margin-top:10px; display:flex; flex-direction:column; gap:10px;">
+        <button class="add-contact-btn" id="addContactToggle" onclick="toggleContactForm()">
+          <i class="fa-solid fa-plus"></i> <span id="addContactText">Add Contact</span>
+        </button>
+        <div class="contact-form" id="contactForm">
+          <input type="text" id="contactName" placeholder="Name">
+          <input type="tel" id="contactPhone" placeholder="Phone Number">
+          <div class="form-row">
+            <button class="btn-cancel" onclick="toggleContactForm()" id="cancelBtnText">Cancel</button>
+            <button class="btn-save" onclick="saveContact()" id="saveBtnText">Save Contact</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="nav-items">
+    <button class="nav-item active" data-view="guide" onclick="navigate('guide')"><i class="fa-solid fa-compass"></i><span id="navGuide">Guide</span></button>
+    <button class="nav-item" data-view="hospitals" onclick="navigate('hospitals')"><i class="fa-solid fa-hospital"></i><span id="navHospitals">Hospitals</span></button>
+    <button class="nav-item" data-view="helplines" onclick="navigate('helplines')"><i class="fa-solid fa-phone-volume"></i><span id="navHelplines">Helplines</span></button>
+    <button class="nav-item" data-view="rights" onclick="navigate('rights')"><i class="fa-solid fa-scale-balanced"></i><span id="navRights">Rights</span></button>
+  </div>
+</nav>
+
+<script>
+/* ============ UI TRANSLATIONS ============ */
+const ui = {
+  en: {
+    callBtn: "CALL 108", searchPlaceholder: "Search emergency (e.g., Snakebite, CPR)...",
+    lawTitle: "Protected by Good Samaritan Law", lawText: "Bystanders rendering emergency aid are legally protected from police harassment or medical costs.",
+    selectEmergency: "Select Medical Emergency", goldenBadge: "Golden Minutes Protocol",
+    videoLabel: "Animated Action Demo", videoSub: "Visual Protocol",
+    doLabel: "DO", dontLabel: "DON'T",
+    readAloud: "Read Aloud", stopReading: "Stop Reading",
+    navGuide: "Guide", navHospitals: "Hospitals", navHelplines: "Helplines", navRights: "Rights",
+    sosModalTitle: "Emergency SOS", sosCallBtn: "CALL AMBULANCE 108",
+    contactsTitle: "Emergency Contacts", addContact: "Add Contact",
+    nameLabel: "Name", phoneLabel: "Phone Number", saveBtn: "Save Contact", cancelBtn: "Cancel",
+    callAction: "Call", locationAction: "Send Location",
+    noContacts: "No emergency contacts yet. Add family or friends who should be alerted in an emergency — you can call or message them their location instantly.",
+    locateBtnText: "Find Nearby Hospitals", locating: "Getting your location...", searching: "Searching nearby hospitals...",
+    directions: "Directions", hospitalsErrorTitle: "Couldn't fetch hospital list automatically.",
+    hospitalsErrorLink: "Open nearby hospitals in Google Maps",
+    hospitalsDenied: "Location access was denied. Please allow location access in your browser to find nearby hospitals.",
+    away: "away", roadDistance: "by road", driveEstimate: "min drive",
+    noResults: "No hospitals found nearby. Try the Google Maps link below.",
+    hospitalsTitle: "Nearby Hospitals", helplinesTitle: "National Emergency Helplines",
+    rightsTitle: "Your Legal Rights as a Helper",
+    rightsBody: "<p><b>Good Samaritan Law (India)</b> protects any bystander who helps an injured or ill person in an emergency.</p><br><p>&#8226; You cannot be forced to reveal your name, identity, or contact details.</p><p>&#8226; You cannot be forced to become a witness, unless you choose to.</p><p>&#8226; You cannot be held legally or financially responsible for the outcome, as long as the help was given in good faith.</p><p>&#8226; Hospitals cannot refuse emergency treatment or demand payment/police clearance before treating a victim you bring in.</p><br><p>These protections were laid out by the Supreme Court of India and the Ministry of Road Transport &amp; Highways to encourage people to help without fear.</p>",
+    locationShareMsg: "EMERGENCY: I need help. My current location is: "
+  },
+  hi: {
+    callBtn: "108 पर कॉल करें", searchPlaceholder: "आपातकाल खोजें (जैसे साँप का काटना, CPR)...",
+    lawTitle: "गुड सेमेरिटन कानून द्वारा सुरक्षित", lawText: "आपातकालीन सहायता देने वाले लोग पुलिस परेशानी या इलाज के खर्च से कानूनी रूप से सुरक्षित हैं।",
+    selectEmergency: "चिकित्सा आपातकाल चुनें", goldenBadge: "स्वर्णिम मिनट प्रोटोकॉल",
+    videoLabel: "एनिमेटेड डेमो", videoSub: "दृश्य प्रोटोकॉल",
+    doLabel: "करें", dontLabel: "न करें",
+    readAloud: "ज़ोर से पढ़ें", stopReading: "रोकें",
+    navGuide: "गाइड", navHospitals: "अस्पताल", navHelplines: "हेल्पलाइन", navRights: "अधिकार",
+    sosModalTitle: "आपातकालीन SOS", sosCallBtn: "एम्बुलेंस 108 पर कॉल करें",
+    contactsTitle: "आपातकालीन संपर्क", addContact: "संपर्क जोड़ें",
+    nameLabel: "नाम", phoneLabel: "फ़ोन नंबर", saveBtn: "संपर्क सहेजें", cancelBtn: "रद्द करें",
+    callAction: "कॉल करें", locationAction: "स्थान भेजें",
+    noContacts: "अभी तक कोई आपातकालीन संपर्क नहीं जोड़ा गया। परिवार या दोस्तों को जोड़ें जिन्हें आपातकाल में सूचित किया जाना चाहिए — आप उन्हें तुरंत कॉल कर सकते हैं या अपनी लोकेशन भेज सकते हैं।",
+    locateBtnText: "नज़दीकी अस्पताल खोजें", locating: "आपका स्थान पता किया जा रहा है...", searching: "नज़दीकी अस्पताल खोजे जा रहे हैं...",
+    directions: "रास्ता दिखाएं", hospitalsErrorTitle: "अस्पतालों की सूची अपने आप नहीं मिल पाई।",
+    hospitalsErrorLink: "गूगल मैप्स में नज़दीकी अस्पताल खोलें",
+    hospitalsDenied: "लोकेशन एक्सेस अस्वीकृत कर दिया गया। नज़दीकी अस्पताल खोजने के लिए कृपया ब्राउज़र में लोकेशन एक्सेस की अनुमति दें।",
+    away: "दूर", roadDistance: "सड़क से", driveEstimate: "मिनट का सफ़र",
+    noResults: "आसपास कोई अस्पताल नहीं मिला। नीचे दिए गूगल मैप्स लिंक को आज़माएं।",
+    hospitalsTitle: "नज़दीकी अस्पताल", helplinesTitle: "राष्ट्रीय आपातकालीन हेल्पलाइन",
+    rightsTitle: "सहायक के रूप में आपके कानूनी अधिकार",
+    rightsBody: "<p><b>गुड सेमेरिटन कानून (भारत)</b> किसी भी राहगीर की रक्षा करता है जो आपातकाल में घायल या बीमार व्यक्ति की मदद करता है।</p><br><p>&#8226; आपको अपना नाम, पहचान या संपर्क विवरण बताने के लिए मजबूर नहीं किया जा सकता।</p><p>&#8226; जब तक आप खुद न चाहें, आपको गवाह बनने के लिए मजबूर नहीं किया जा सकता।</p><p>&#8226; यदि मदद नेक इरादे से दी गई है, तो आपको परिणाम के लिए कानूनी या वित्तीय रूप से ज़िम्मेदार नहीं ठहराया जा सकता।</p><p>&#8226; अस्पताल आपके लाए गए मरीज़ का इलाज करने से इनकार नहीं कर सकते या इलाज से पहले भुगतान/पुलिस क्लीयरेंस की मांग नहीं कर सकते।</p><br><p>ये सुरक्षा भारत के सर्वोच्च न्यायालय और सड़क परिवहन एवं राजमार्ग मंत्रालय द्वारा लोगों को बिना डर के मदद करने के लिए प्रोत्साहित करने हेतु दी गई हैं।</p>",
+    locationShareMsg: "आपातकाल: मुझे मदद चाहिए। मेरा वर्तमान स्थान: "
+  },
+  mr: {
+    callBtn: "108 वर कॉल करा", searchPlaceholder: "आणीबाणी शोधा (उदा. सर्पदंश, CPR)...",
+    lawTitle: "गुड सामरिटन कायद्याद्वारे संरक्षित", lawText: "आपत्कालीन मदत करणाऱ्या व्यक्तींना पोलिसांच्या त्रासापासून किंवा वैद्यकीय खर्चापासून कायदेशीर संरक्षण मिळते.",
+    selectEmergency: "वैद्यकीय आणीबाणी निवडा", goldenBadge: "सुवर्ण मिनिट प्रोटोकॉल",
+    videoLabel: "अ‍ॅनिमेटेड डेमो", videoSub: "दृश्य प्रोटोकॉल",
+    doLabel: "करा", dontLabel: "करू नका",
+    readAloud: "मोठ्याने वाचा", stopReading: "थांबवा",
+    navGuide: "मार्गदर्शक", navHospitals: "रुग्णालये", navHelplines: "हेल्पलाइन", navRights: "हक्क",
+    sosModalTitle: "आणीबाणी SOS", sosCallBtn: "रुग्णवाहिका 108 वर कॉल करा",
+    contactsTitle: "आणीबाणी संपर्क", addContact: "संपर्क जोडा",
+    nameLabel: "नाव", phoneLabel: "फोन नंबर", saveBtn: "संपर्क जतन करा", cancelBtn: "रद्द करा",
+    callAction: "कॉल करा", locationAction: "स्थान पाठवा",
+    noContacts: "अद्याप कोणताही आणीबाणी संपर्क जोडलेला नाही. कुटुंब किंवा मित्रांना जोडा ज्यांना आणीबाणीत सूचित केले पाहिजे — तुम्ही त्यांना लगेच कॉल करू शकता किंवा तुमचे स्थान पाठवू शकता.",
+    locateBtnText: "जवळची रुग्णालये शोधा", locating: "तुमचे स्थान शोधले जात आहे...", searching: "जवळची रुग्णालये शोधली जात आहेत...",
+    directions: "दिशा दाखवा", hospitalsErrorTitle: "रुग्णालयांची यादी आपोआप मिळाली नाही.",
+    hospitalsErrorLink: "गुगल मॅप्समध्ये जवळची रुग्णालये उघडा",
+    hospitalsDenied: "स्थान प्रवेश नाकारला गेला. जवळची रुग्णालये शोधण्यासाठी कृपया ब्राउझरमध्ये स्थान प्रवेशाची परवानगी द्या.",
+    away: "दूर", roadDistance: "रस्त्याने", driveEstimate: "मिनिटांचा प्रवास",
+    noResults: "जवळपास रुग्णालये आढळली नाहीत. खालील गुगल मॅप्स लिंक वापरून पहा.",
+    speechVoiceUnavailable: "मराठी किंवा हिंदी आवाज उपलब्ध नाही. कृपया तुमच्या डिव्हाइसवर मराठी किंवा हिंदी मजकूर-ते-वाणी आवाज स्थापित करा.",
+    hospitalsTitle: "जवळची रुग्णालये", helplinesTitle: "राष्ट्रीय आणीबाणी हेल्पलाइन",
+    rightsTitle: "मदतनीस म्हणून तुमचे कायदेशीर हक्क",
+    rightsBody: "<p><b>गुड सामरिटन कायदा (भारत)</b> आणीबाणीत जखमी किंवा आजारी व्यक्तीला मदत करणाऱ्या कोणत्याही व्यक्तीचे संरक्षण करतो.</p><br><p>&#8226; तुम्हाला तुमचे नाव, ओळख किंवा संपर्क तपशील सांगण्यास भाग पाडले जाऊ शकत नाही.</p><p>&#8226; जोपर्यंत तुम्ही स्वतः निवडत नाही, तोपर्यंत तुम्हाला साक्षीदार बनण्यास भाग पाडले जाऊ शकत नाही.</p><p>&#8226; मदत सद्भावनेने दिली असल्यास, परिणामासाठी तुम्हाला कायदेशीर किंवा आर्थिकदृष्ट्या जबाबदार धरले जाऊ शकत नाही.</p><p>&#8226; रुग्णालये तुम्ही आणलेल्या रुग्णावर उपचार करण्यास नकार देऊ शकत नाहीत किंवा उपचारापूर्वी पैसे/पोलीस क्लिअरन्सची मागणी करू शकत नाहीत.</p><br><p>लोकांनी न घाबरता मदत करावी यासाठी भारताच्या सर्वोच्च न्यायालयाने आणि रस्ते वाहतूक व महामार्ग मंत्रालयाने ही संरक्षणे दिली आहेत.</p>",
+    locationShareMsg: "आणीबाणी: मला मदत हवी आहे. माझे सध्याचे स्थान: "
+  }
+};
+
+const speechLangMap = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN' };
+
+/* ============ EMERGENCY DATA ============ */
+const emergencyMeta = {
+  burns:     { icon: 'fa-fire-flame-curved',  color: '#F97316', bg: 'rgba(249,115,22,0.2)', glow: 'rgba(249,115,22,0.4)', video: 'burns.mp4' },
+  accident:  { icon: 'fa-car-burst',           color: '#EF4444', bg: 'rgba(239,68,68,0.2)',  glow: 'rgba(239,68,68,0.4)',  video: 'road_accident.mp4' },
+  choking:   { icon: 'fa-lungs',                color: '#F59E0B', bg: 'rgba(245,158,11,0.2)', glow: 'rgba(245,158,11,0.4)', video: 'choking.mp4' },
+  snakebite: { icon: 'fa-staff-snake',          color: '#A855F7', bg: 'rgba(168,85,247,0.2)', glow: 'rgba(168,85,247,0.4)', video: 'snakebite.mp4' },
+  stroke:    { icon: 'fa-brain',                color: '#3B82F6', bg: 'rgba(59,130,246,0.2)', glow: 'rgba(59,130,246,0.4)', video: 'stroke.mp4' },
+  seizure:   { icon: 'fa-bolt',                 color: '#6366F1', bg: 'rgba(99,102,241,0.2)', glow: 'rgba(99,102,241,0.4)', video: 'seizure.mp4' },
+  poison:    { icon: 'fa-skull-crossbones',     color: '#14B8A6', bg: 'rgba(20,184,166,0.2)', glow: 'rgba(20,184,166,0.4)', video: 'poisoning.mp4' },
+  cpr:       { icon: 'fa-heart-circle-bolt',    color: '#EC4899', bg: 'rgba(236,72,153,0.2)', glow: 'rgba(236,72,153,0.4)', video: 'heart_attack.mp4' }
+};
+
+const emergencyData = {
+  burns: {
+    en: { cardTitle:"Burns", cardSubtitle:"Thermal & Chemical", title:"Thermal & Chemical Burns",
+      steps:["<strong>Cool the burn immediately:</strong> Hold under clean, cool running water for at least 10–15 minutes until pain eases.","<strong>Remove non-sticking items:</strong> Carefully remove rings, watches, or loose clothing before swelling begins.","<strong>Cover cleanly:</strong> Cover loosely with a clean, dry cloth or sterile plastic wrap."],
+      do:"Cool with plain running water; seek urgent care if burn is larger than victim's palm.", dont:"NEVER apply toothpaste, butter, ice, cow dung, or burst blisters." },
+    hi: { cardTitle:"जलना", cardSubtitle:"ताप व रासायनिक", title:"ताप व रासायनिक जलन",
+      steps:["<strong>तुरंत ठंडा करें:</strong> दर्द कम होने तक कम से कम 10–15 मिनट तक साफ, ठंडे बहते पानी के नीचे रखें।","<strong>चिपकी हुई वस्तुएं हटाएं:</strong> सूजन शुरू होने से पहले अंगूठी, घड़ी या ढीले कपड़े सावधानी से हटाएं।","<strong>साफ ढकें:</strong> साफ, सूखे कपड़े या स्टेराइल प्लास्टिक रैप से ढीला ढकें।"],
+      do:"सादे बहते पानी से ठंडा करें; यदि जलन पीड़ित की हथेली से बड़ी है तो तुरंत डॉक्टर के पास जाएं।", dont:"कभी भी टूथपेस्ट, मक्खन, बर्फ, गोबर न लगाएं और फफोले न फोड़ें।" },
+    mr: { cardTitle:"भाजणे", cardSubtitle:"उष्णता व रासायनिक", title:"उष्णता व रासायनिक भाजणे",
+      steps:["<strong>त्वरित थंड करा:</strong> वेदना कमी होईपर्यंत किमान 10–15 मिनिटे स्वच्छ, थंड वाहत्या पाण्याखाली धरा.","<strong>चिकटलेल्या वस्तू काढा:</strong> सूज येण्यापूर्वी अंगठी, घड्याळ किंवा सैल कपडे काळजीपूर्वक काढा.","<strong>स्वच्छपणे झाका:</strong> स्वच्छ, कोरड्या कापडाने किंवा निर्जंतुक प्लास्टिक रॅपने सैलसर झाका."],
+      do:"साध्या वाहत्या पाण्याने थंड करा; भाजलेला भाग तळहातापेक्षा मोठा असल्यास त्वरित उपचार घ्या.", dont:"कधीही टूथपेस्ट, लोणी, बर्फ, शेण लावू नका किंवा फोड फोडू नका." }
+  },
+  accident: {
+    en: { cardTitle:"Road Accident", cardSubtitle:"Trauma & Bleeding", title:"Road Accident Trauma",
+      steps:["<strong>Ensure Scene Safety:</strong> Signal oncoming traffic before approaching. Do not put yourself in danger.","<strong>Stop Heavy Bleeding:</strong> Apply firm, direct pressure on bleeding wounds using a clean cloth or garment.","<strong>Stabilize Spine & Neck:</strong> Keep the victim's head and neck steady. Avoid unnecessary movement."],
+      do:"Call 108 immediately; keep victim warm and calm.", dont:"Do NOT lift or drag an unconscious person unless there is immediate fire/explosion hazard." },
+    hi: { cardTitle:"सड़क दुर्घटना", cardSubtitle:"चोट व रक्तस्राव", title:"सड़क दुर्घटना में चोट",
+      steps:["<strong>स्थान सुरक्षित करें:</strong> पास जाने से पहले आ रहे वाहनों को संकेत दें। खुद को खतरे में न डालें।","<strong>तेज रक्तस्राव रोकें:</strong> साफ कपड़े से घाव पर मजबूती से सीधा दबाव डालें।","<strong>गर्दन व रीढ़ स्थिर रखें:</strong> पीड़ित के सिर और गर्दन को स्थिर रखें। अनावश्यक हलचल से बचें।"],
+      do:"तुरंत 108 पर कॉल करें; पीड़ित को गर्म और शांत रखें।", dont:"बेहोश व्यक्ति को तब तक न उठाएं या न घसीटें जब तक तुरंत आग/विस्फोट का खतरा न हो।" },
+    mr: { cardTitle:"रस्ता अपघात", cardSubtitle:"जखम व रक्तस्राव", title:"रस्ता अपघातातील जखम",
+      steps:["<strong>जागा सुरक्षित करा:</strong> जवळ जाण्यापूर्वी येणाऱ्या वाहतुकीला इशारा द्या. स्वतःला धोक्यात टाकू नका.","<strong>जास्त रक्तस्राव थांबवा:</strong> स्वच्छ कापडाने जखमेवर घट्ट, थेट दाब द्या.","<strong>मान व मणका स्थिर ठेवा:</strong> पीडिताचे डोके व मान स्थिर ठेवा. अनावश्यक हालचाल टाळा."],
+      do:"त्वरित 108 वर कॉल करा; पीडिताला उबदार आणि शांत ठेवा.", dont:"तात्काळ आग/स्फोटाचा धोका असल्याशिवाय बेशुद्ध व्यक्तीला उचलू किंवा ओढू नका." }
+  },
+  choking: {
+    en: { cardTitle:"Choking", cardSubtitle:"Blocked Airway", title:"Choking (Adult Airway Obstruction)",
+      steps:["<strong>Encourage Coughing:</strong> If person can speak or cough loudly, let them try to clear it.","<strong>Give 5 Back Blows:</strong> Lean victim forward; hit firmly between shoulder blades with heel of hand.","<strong>Abdominal Thrusts (Heimlich):</strong> Wrap arms around waist, make a fist above navel, pull inward & upward rapidly."],
+      do:"Alternate 5 back blows with 5 abdominal thrusts until object pops out.", dont:"Do NOT slap blindly on the back while victim is upright, as it may push object deeper." },
+    hi: { cardTitle:"दम घुटना", cardSubtitle:"वायुमार्ग अवरुद्ध", title:"दम घुटना (वायुमार्ग अवरोध)",
+      steps:["<strong>खांसने के लिए प्रोत्साहित करें:</strong> यदि व्यक्ति बोल या जोर से खांस सकता है, तो उसे खुद साफ करने दें।","<strong>5 बार पीठ पर थपकी दें:</strong> पीड़ित को आगे झुकाएं; हाथ की एड़ी से कंधे की हड्डियों के बीच मजबूती से मारें।","<strong>पेट पर दबाव (हाइमलिक):</strong> कमर के चारों ओर हाथ लपेटें, नाभि के ऊपर मुट्ठी बनाएं, तेजी से अंदर और ऊपर खींचें।"],
+      do:"वस्तु निकलने तक 5 पीठ पर थपकी और 5 पेट पर दबाव बारी-बारी से दें।", dont:"पीड़ित के खड़े रहते हुए पीठ पर अंधाधुंध न मारें, इससे वस्तु और अंदर जा सकती है।" },
+    mr: { cardTitle:"गुदमरणे", cardSubtitle:"श्वासमार्ग अडथळा", title:"गुदमरणे (श्वासमार्ग अडथळा)",
+      steps:["<strong>खोकण्यास प्रोत्साहन द्या:</strong> जर व्यक्ती बोलू किंवा जोरात खोकू शकत असेल तर त्यांना स्वतः साफ करू द्या.","<strong>5 वेळा पाठीवर थाप द्या:</strong> पीडिताला पुढे वाकवा; हाताच्या तळव्याने खांद्याच्या हाडांमध्ये घट्ट मारा.","<strong>पोटावर दाब (हाइमलिक):</strong> कंबरेभोवती हात गुंडाळा, नाभीच्या वर मूठ करा, वेगाने आत व वर खेचा."],
+      do:"वस्तू बाहेर येईपर्यंत 5 पाठीवर थाप आणि 5 पोटावर दाब आलटून पालटून द्या.", dont:"पीडित उभा असताना आंधळेपणाने पाठीवर मारू नका, यामुळे वस्तू आणखी आत जाऊ शकते." }
+  },
+  snakebite: {
+    en: { cardTitle:"Snakebite", cardSubtitle:"Envenomation", title:"Snakebite First Aid",
+      steps:["<strong>Keep Victim Still:</strong> Reassure the person. Movement accelerates venom spreading into bloodstream.","<strong>Immobilize Limb:</strong> Keep bitten arm/leg tied loosely with a splint at or below heart level.","<strong>Immediate Transport:</strong> Rush to nearest district hospital having Anti-Snake Venom (ASV)."],
+      do:"Note snake appearance if safe; remove rings and tight clothing.", dont:"NEVER cut wound, try to suck out venom, or tie tight tourniquets." },
+    hi: { cardTitle:"साँप का काटना", cardSubtitle:"विषाक्तता", title:"साँप के काटने पर प्राथमिक उपचार",
+      steps:["<strong>पीड़ित को स्थिर रखें:</strong> व्यक्ति को आश्वस्त करें। हिलने-डुलने से विष रक्त में तेजी से फैलता है।","<strong>अंग को स्थिर करें:</strong> काटे गए हाथ/पैर को हृदय के स्तर पर या नीचे स्प्लिंट से ढीला बांधें।","<strong>तुरंत अस्पताल ले जाएं:</strong> एंटी-स्नेक वेनम (ASV) वाले नजदीकी जिला अस्पताल भागें।"],
+      do:"यदि सुरक्षित हो तो साँप का रूप याद रखें; अंगूठी और तंग कपड़े हटाएं।", dont:"कभी भी घाव न काटें, विष चूसने की कोशिश न करें, या कसकर टूर्निकेट न बांधें।" },
+    mr: { cardTitle:"सर्पदंश", cardSubtitle:"विषबाधा", title:"सर्पदंशावरील प्रथमोपचार",
+      steps:["<strong>पीडिताला स्थिर ठेवा:</strong> व्यक्तीला धीर द्या. हालचालीमुळे विष रक्तात वेगाने पसरते.","<strong>अवयव स्थिर करा:</strong> चावलेला हात/पाय हृदयाच्या पातळीवर किंवा खाली स्प्लिंटने सैलसर बांधा.","<strong>त्वरित रुग्णालयात न्या:</strong> अँटी-स्नेक व्हेनम (ASV) असलेल्या जवळच्या जिल्हा रुग्णालयात धावा."],
+      do:"सुरक्षित असल्यास सापाचे स्वरूप लक्षात ठेवा; अंगठी व घट्ट कपडे काढा.", dont:"कधीही जखम कापू नका, विष शोषण्याचा प्रयत्न करू नका, किंवा घट्ट टूर्निकेट बांधू नका." }
+  },
+  stroke: {
+    en: { cardTitle:"Stroke", cardSubtitle:"F.A.S.T Protocol", title:"Stroke (F.A.S.T Protocol)",
+      steps:["<strong>F - Face Drooping:</strong> Ask person to smile. Does one side droop?","<strong>A - Arm Weakness:</strong> Ask person to raise both arms. Does one arm drift downward?","<strong>S - Speech Difficulty:</strong> Ask person to repeat a simple phrase. Is speech slurred?","<strong>T - Time to Call 108:</strong> If you see any of these signs, rush to hospital immediately."],
+      do:"Note the exact time symptoms started for doctors.", dont:"Do NOT give any food, water, or aspirin (may cause choking or cerebral bleeding)." },
+    hi: { cardTitle:"स्ट्रोक", cardSubtitle:"F.A.S.T प्रोटोकॉल", title:"स्ट्रोक (F.A.S.T प्रोटोकॉल)",
+      steps:["<strong>F - चेहरा झुकना:</strong> व्यक्ति को मुस्कुराने को कहें। क्या एक तरफ झुक रहा है?","<strong>A - बांह में कमजोरी:</strong> दोनों बांहें उठाने को कहें। क्या एक बांह नीचे गिरती है?","<strong>S - बोलने में कठिनाई:</strong> एक सरल वाक्य दोहराने को कहें। क्या बोली लड़खड़ा रही है?","<strong>T - 108 पर कॉल करने का समय:</strong> यदि इनमें से कोई लक्षण दिखे, तो तुरंत अस्पताल भागें।"],
+      do:"डॉक्टरों के लिए लक्षण शुरू होने का सही समय नोट करें।", dont:"कोई भोजन, पानी या एस्पिरिन न दें (दम घुटने या मस्तिष्क रक्तस्राव का खतरा)।" },
+    mr: { cardTitle:"स्ट्रोक", cardSubtitle:"F.A.S.T प्रोटोकॉल", title:"स्ट्रोक (F.A.S.T प्रोटोकॉल)",
+      steps:["<strong>F - चेहरा झुकणे:</strong> व्यक्तीला हसण्यास सांगा. एक बाजू झुकत आहे का?","<strong>A - हातातील अशक्तपणा:</strong> दोन्ही हात वर करण्यास सांगा. एक हात खाली जातो का?","<strong>S - बोलण्यात अडचण:</strong> एक साधे वाक्य पुन्हा बोलण्यास सांगा. बोलणे अस्पष्ट आहे का?","<strong>T - 108 वर कॉल करण्याची वेळ:</strong> यापैकी कोणतीही लक्षणे दिसल्यास, त्वरित रुग्णालयात न्या."],
+      do:"डॉक्टरांसाठी लक्षणे सुरू झाल्याची अचूक वेळ नोंदवा.", dont:"कोणतेही अन्न, पाणी किंवा अ‍ॅस्पिरिन देऊ नका (गुदमरणे किंवा मेंदूतील रक्तस्राव होऊ शकतो)." }
+  },
+  seizure: {
+    en: { cardTitle:"Seizure", cardSubtitle:"Fits & Convulsions", title:"Seizure / Epilepsy Fit",
+      steps:["<strong>Protect from Harm:</strong> Clear hard, sharp objects nearby. Place something soft under their head.","<strong>Turn On Side:</strong> Roll victim into recovery position (on their side) so fluid/saliva drains out.","<strong>Time the Fit:</strong> Stay calm and monitor time. If seizure lasts >5 minutes, call 108 instantly."],
+      do:"Loosen tight neckwear; stay with person until fully conscious.", dont:"NEVER force metal objects/keys into mouth, or try to restrain their movements." },
+    hi: { cardTitle:"दौरा", cardSubtitle:"मिर्गी व ऐंठन", title:"दौरा / मिर्गी का दौरा",
+      steps:["<strong>नुकसान से बचाएं:</strong> पास की सख्त, तेज वस्तुएं हटाएं। सिर के नीचे कुछ नरम रखें।","<strong>करवट पर लिटाएं:</strong> पीड़ित को रिकवरी पोजीशन (करवट) में लिटाएं ताकि लार/द्रव बाहर निकले।","<strong>समय नोट करें:</strong> शांत रहें और समय देखें। यदि दौरा 5 मिनट से अधिक चले, तो तुरंत 108 पर कॉल करें।"],
+      do:"गले के तंग कपड़े ढीले करें; पूरी तरह होश में आने तक साथ रहें।", dont:"मुंह में कभी धातु की वस्तु/चाबी न डालें, या उनकी हलचल रोकने की कोशिश न करें।" },
+    mr: { cardTitle:"झटका", cardSubtitle:"फेफरे व आकडी", title:"झटका / अपस्माराचा झटका",
+      steps:["<strong>इजेपासून वाचवा:</strong> जवळच्या कठीण, धारदार वस्तू बाजूला करा. डोक्याखाली मऊ काहीतरी ठेवा.","<strong>कुशीवर वळवा:</strong> पीडिताला रिकव्हरी पोझिशनमध्ये (कुशीवर) वळवा जेणेकरून लाळ/द्रव बाहेर येईल.","<strong>वेळ नोंदवा:</strong> शांत राहा आणि वेळेकडे लक्ष द्या. झटका 5 मिनिटांपेक्षा जास्त वेळ राहिल्यास त्वरित 108 वर कॉल करा."],
+      do:"गळ्याभोवतीचे घट्ट कपडे सैल करा; पूर्ण शुद्धीवर येईपर्यंत सोबत रहा.", dont:"तोंडात कधीही धातूची वस्तू/चावी घालू नका, किंवा त्यांची हालचाल रोखण्याचा प्रयत्न करू नका." }
+  },
+  poison: {
+    en: { cardTitle:"Poisoning", cardSubtitle:"Chemical & Ingestion", title:"Poisoning Emergency",
+      steps:["<strong>Identify Substance:</strong> Try to safely locate chemical bottle, pill packaging, or plant matter.","<strong>Fresh Air / Wash:</strong> If inhaled, move to open air. If on skin, rinse thoroughly under running water.","<strong>Call Helpline:</strong> Transport to emergency room along with container or sample."],
+      do:"Keep victim sitting upright if conscious; preserve chemical container.", dont:"NEVER force victim to vomit or drink salt water unless directed by medical expert." },
+    hi: { cardTitle:"विषाक्तता", cardSubtitle:"रासायनिक व सेवन", title:"विषाक्तता आपातकाल",
+      steps:["<strong>पदार्थ की पहचान करें:</strong> सुरक्षित रूप से रासायनिक बोतल, गोली की पैकेजिंग या पौधे का पदार्थ ढूंढें।","<strong>ताजी हवा / धोएं:</strong> यदि सांस से लिया हो, तो खुली हवा में ले जाएं। त्वचा पर लगा हो तो बहते पानी से अच्छी तरह धोएं।","<strong>हेल्पलाइन को कॉल करें:</strong> कंटेनर या नमूने के साथ इमरजेंसी रूम ले जाएं।"],
+      do:"होश में हो तो पीड़ित को सीधा बैठाएं; रासायनिक कंटेनर सुरक्षित रखें।", dont:"डॉक्टर के निर्देश के बिना कभी उल्टी न कराएं या नमक का पानी न पिलाएं।" },
+    mr: { cardTitle:"विषबाधा", cardSubtitle:"रासायनिक व सेवन", title:"विषबाधा आणीबाणी",
+      steps:["<strong>पदार्थ ओळखा:</strong> सुरक्षितपणे रासायनिक बाटली, गोळ्यांचे पॅकेजिंग किंवा वनस्पती शोधा.","<strong>ताजी हवा / धुवा:</strong> श्वासाने घेतले असल्यास मोकळ्या हवेत न्या. त्वचेवर असल्यास वाहत्या पाण्याने नीट धुवा.","<strong>हेल्पलाइनला कॉल करा:</strong> कंटेनर किंवा नमुन्यासह आपत्कालीन कक्षात न्या."],
+      do:"शुद्धीत असल्यास पीडिताला सरळ बसवा; रासायनिक कंटेनर जपून ठेवा.", dont:"वैद्यकीय तज्ज्ञांच्या सल्ल्याशिवाय कधीही उलटी करवू नका किंवा मिठाचे पाणी पाजू नका." }
+  },
+  cpr: {
+    en: { cardTitle:"Cardiac Arrest", cardSubtitle:"Hands-Only CPR", title:"Hands-Only CPR (Cardiac Arrest)",
+      steps:["<strong>Check Responsiveness:</strong> Tap shoulders firmly and shout. If unresponsive & not breathing, call 108.","<strong>Position Hands:</strong> Place heel of one hand in center of chest, interlock other hand on top.","<strong>Compress Fast & Hard:</strong> Push down 2 inches at rate of 100-120 beats per minute."],
+      do:"Keep chest compressions continuous with minimal interruptions until help arrives.", dont:"Do NOT stop compressions unless victim wakes up or medical team takes over." },
+    hi: { cardTitle:"हृदयाघात", cardSubtitle:"हैंड्स-ओनली CPR", title:"हैंड्स-ओनली CPR (हृदयाघात)",
+      steps:["<strong>प्रतिक्रिया जांचें:</strong> कंधों पर मजबूती से थपथपाएं और जोर से पुकारें। यदि कोई प्रतिक्रिया नहीं और सांस नहीं, तो 108 पर कॉल करें।","<strong>हाथों की स्थिति:</strong> एक हाथ की एड़ी छाती के बीच में रखें, दूसरे हाथ को ऊपर से जोड़ें।","<strong>तेज और मजबूत दबाव दें:</strong> 100-120 प्रति मिनट की दर से 2 इंच नीचे दबाएं।"],
+      do:"मदद आने तक सीने पर दबाव लगातार, कम से कम रुकावट के साथ जारी रखें।", dont:"जब तक पीड़ित होश में न आए या चिकित्सा टीम न आ जाए, दबाव देना बंद न करें।" },
+    mr: { cardTitle:"हृदयविकाराचा झटका", cardSubtitle:"हँड्स-ओन्ली CPR", title:"हँड्स-ओन्ली CPR (हृदयविकाराचा झटका)",
+      steps:["<strong>प्रतिसाद तपासा:</strong> खांद्यांवर घट्ट थोपटा आणि मोठ्याने हाक मारा. प्रतिसाद नसल्यास व श्वास नसल्यास 108 वर कॉल करा.","<strong>हातांची स्थिती:</strong> एका हाताचा तळवा छातीच्या मध्यभागी ठेवा, दुसरा हात वर गुंफा.","<strong>वेगाने व जोरात दाब द्या:</strong> 100-120 प्रति मिनिट वेगाने 2 इंच खाली दाबा."],
+      do:"मदत येईपर्यंत छातीवरील दाब सतत, कमीत कमी व्यत्ययासह चालू ठेवा.", dont:"पीडित शुद्धीवर येईपर्यंत किंवा वैद्यकीय पथक येईपर्यंत दाब देणे थांबवू नका." }
+  }
+};
+
+const helplines = {
+  en: [
+    {label:"Ambulance", num:"108"}, {label:"Police", num:"100"}, {label:"Fire", num:"101"},
+    {label:"Women Helpline", num:"1091"}, {label:"Child Helpline", num:"1098"},
+    {label:"Health / Medical Advice", num:"104"}, {label:"Disaster Management (NDMA)", num:"1078"},
+    {label:"Mental Health Helpline (KIRAN)", num:"18005990019"}
+  ],
+  hi: [
+    {label:"एम्बुलेंस", num:"108"}, {label:"पुलिस", num:"100"}, {label:"अग्निशमन", num:"101"},
+    {label:"महिला हेल्पलाइन", num:"1091"}, {label:"बाल हेल्पलाइन", num:"1098"},
+    {label:"स्वास्थ्य / चिकित्सा सलाह", num:"104"}, {label:"आपदा प्रबंधन (NDMA)", num:"1078"},
+    {label:"मानसिक स्वास्थ्य हेल्पलाइन (KIRAN)", num:"18005990019"}
+  ],
+  mr: [
+    {label:"रुग्णवाहिका", num:"108"}, {label:"पोलीस", num:"100"}, {label:"अग्निशमन दल", num:"101"},
+    {label:"महिला हेल्पलाइन", num:"1091"}, {label:"बालक हेल्पलाइन", num:"1098"},
+    {label:"आरोग्य / वैद्यकीय सल्ला", num:"104"}, {label:"आपत्ती व्यवस्थापन (NDMA)", num:"1078"},
+    {label:"मानसिक आरोग्य हेल्पलाइन (KIRAN)", num:"18005990019"}
+  ]
+};
+
+/* ============ STATE ============ */
+let currentLang = 'en';
+let currentEmergency = 'burns';
+let isSpeaking = false;
+let emergencyContacts = [];
+
+/* ============ INIT ============ */
+async function init() {
+  try {
+    const stored = await window.storage.get('emergency_contacts', false);
+    if (stored && stored.value) emergencyContacts = JSON.parse(stored.value);
+  } catch (e) { emergencyContacts = []; }
+
+  buildGrid();
+  applyTranslations();
+  buildHelplines();
+  selectEmergency('burns');
+  renderContacts();
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  window.speechSynthesis.cancel();
+  isSpeaking = false;
+  buildGrid();
+  applyTranslations();
+  buildHelplines();
+  selectEmergency(currentEmergency);
+  renderContacts();
+}
+
+function applyTranslations() {
+  const t = ui[currentLang];
+  document.getElementById('callBtnText').innerText = t.callBtn;
+  document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+  document.getElementById('lawTitle').innerText = t.lawTitle;
+  document.getElementById('lawText').innerText = t.lawText;
+  document.getElementById('selectEmergencyTitle').innerText = t.selectEmergency;
+  document.getElementById('goldenBadge').innerText = t.goldenBadge;
+  document.getElementById('videoLabel').innerHTML = '<i class="fa-solid fa-video"></i> ' + t.videoLabel;
+  document.getElementById('videoSub').innerText = t.videoSub;
+  document.getElementById('voiceBtnText').innerText = isSpeaking ? t.stopReading : t.readAloud;
+  document.getElementById('navGuide').innerText = t.navGuide;
+  document.getElementById('navHospitals').innerText = t.navHospitals;
+  document.getElementById('navHelplines').innerText = t.navHelplines;
+  document.getElementById('navRights').innerText = t.navRights;
+  document.getElementById('sosModalTitle').innerText = t.sosModalTitle;
+  document.getElementById('sosCallBtnText').innerText = t.sosCallBtn;
+  document.getElementById('contactsTitle').innerText = t.contactsTitle;
+  document.getElementById('addContactText').innerText = t.addContact;
+  document.getElementById('contactName').placeholder = t.nameLabel;
+  document.getElementById('contactPhone').placeholder = t.phoneLabel;
+  document.getElementById('cancelBtnText').innerText = t.cancelBtn;
+  document.getElementById('saveBtnText').innerText = t.saveBtn;
+  document.getElementById('locateBtnText').innerText = t.locateBtnText;
+  document.getElementById('hospitalsTitle').innerText = t.hospitalsTitle;
+  document.getElementById('helplinesTitle').innerText = t.helplinesTitle;
+  document.getElementById('rightsTitle').innerText = t.rightsTitle;
+  document.getElementById('rightsBody').innerHTML = t.rightsBody;
+}
+
+/* ============ EMERGENCY GRID ============ */
+function buildGrid() {
+  const grid = document.getElementById('emergencyGrid');
+  grid.innerHTML = '';
+  Object.keys(emergencyMeta).forEach(key => {
+    const meta = emergencyMeta[key];
+    const data = emergencyData[key][currentLang];
+    const card = document.createElement('div');
+    card.className = 'card' + (key === currentEmergency ? ' active' : '');
+    card.style.setProperty('--card-color', meta.color);
+    card.style.setProperty('--card-bg', meta.bg);
+    card.style.setProperty('--card-glow', meta.glow);
+    card.onclick = () => selectEmergency(key);
+    card.innerHTML = `
+      <div class="card-icon"><i class="fa-solid ${meta.icon}"></i></div>
+      <div class="card-info"><h3>${data.cardTitle}</h3><p>${data.cardSubtitle}</p></div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function selectEmergency(key) {
+  currentEmergency = key;
+  window.speechSynthesis.cancel();
+  isSpeaking = false;
+  const t = ui[currentLang];
+  document.getElementById('voiceIcon').className = 'fa-solid fa-volume-high';
+  document.getElementById('voiceBtnText').innerText = t.readAloud;
+  document.getElementById('voiceBtn').classList.remove('speaking');
+
+  document.querySelectorAll('.card').forEach((c, i) => {
+    const k = Object.keys(emergencyMeta)[i];
+    c.classList.toggle('active', k === key);
+  });
+
+  const meta = emergencyMeta[key];
+  const data = emergencyData[key][currentLang];
+  document.getElementById('guideTitle').innerText = data.title;
+
+  const videoEl = document.getElementById('guideVideo');
+  if (videoEl && meta.video) {
+    const sourceEl = videoEl.querySelector('source');
+    if (sourceEl) sourceEl.src = meta.video;
+    else videoEl.src = meta.video;
+    videoEl.load();
+  }
+
+  document.getElementById('stepList').innerHTML = data.steps.map((step, idx) => `
+    <div class="step-item">
+      <div class="step-num">${idx + 1}</div>
+      <div class="step-desc">${step}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('dosDonts').innerHTML = `
+    <div class="box-do"><div class="box-head"><i class="fa-solid fa-circle-check"></i> ${t.doLabel}</div><div class="box-body">${data.do}</div></div>
+    <div class="box-dont"><div class="box-head"><i class="fa-solid fa-circle-xmark"></i> ${t.dontLabel}</div><div class="box-body">${data.dont}</div></div>
+  `;
+}
+
+function filterCards() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.card').forEach(card => {
+    const text = card.innerText.toLowerCase();
+    card.style.display = text.includes(input) ? 'flex' : 'none';
+  });
+}
+
+/* ============ VOICE ASSISTANT ============ */
+function toggleSpeak() {
+  if (isSpeaking) {
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    document.getElementById('voiceIcon').className = 'fa-solid fa-volume-high';
+    document.getElementById('voiceBtnText').innerText = ui[currentLang].readAloud;
+    document.getElementById('voiceBtn').classList.remove('speaking');
+    return;
+  }
+  const data = emergencyData[currentEmergency][currentLang];
+  const t = ui[currentLang];
+  const plain = s => s.replace(/<[^>]+>/g, '');
+  let text = plain(data.title) + '. ';
+  data.steps.forEach((s, i) => { text += (i + 1) + '. ' + plain(s) + '. '; });
+  text += t.doLabel + ': ' + data.do + '. ' + t.dontLabel + ': ' + data.dont + '.';
+
+  const voices = window.speechSynthesis.getVoices();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = speechLangMap[currentLang] || 'en-IN';
+  if (currentLang === 'mr') {
+    const marathiVoice = voices.find(voice => voice.lang.toLowerCase() === 'mr-in')
+      || voices.find(voice => voice.lang.toLowerCase().startsWith('mr-'));
+    const hindiVoice = voices.find(voice => voice.lang.toLowerCase() === 'hi-in')
+      || voices.find(voice => voice.lang.toLowerCase().startsWith('hi-'));
+    const voice = marathiVoice || hindiVoice;
+    if (!voice) {
+      window.alert(t.speechVoiceUnavailable);
+      return;
+    }
+    utter.voice = voice;
+    utter.lang = voice.lang;
+  }
+  utter.rate = 0.92;
+  utter.onend = () => {
+    isSpeaking = false;
+    document.getElementById('voiceIcon').className = 'fa-solid fa-volume-high';
+    document.getElementById('voiceBtnText').innerText = t.readAloud;
+    document.getElementById('voiceBtn').classList.remove('speaking');
+  };
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+  isSpeaking = true;
+  document.getElementById('voiceIcon').className = 'fa-solid fa-stop';
+  document.getElementById('voiceBtnText').innerText = t.stopReading;
+  document.getElementById('voiceBtn').classList.add('speaking');
+}
+
+/* ============ NAVIGATION ============ */
+function navigate(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === view));
+}
+
+/* ============ HELPLINES ============ */
+function buildHelplines() {
+  const list = document.getElementById('helplinesList');
+  list.innerHTML = helplines[currentLang].map(h => `
+    <div class="helpline-item">
+      <div class="helpline-info"><h4>${h.label}</h4></div>
+      <a href="tel:${h.num}" class="helpline-num" style="text-decoration:none;">${h.num}</a>
+    </div>
+  `).join('');
+}
+
+/* ============ HOSPITALS ============ */
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function findHospitals() {
+  const t = ui[currentLang];
+  const statusEl = document.getElementById('hospitalStatus');
+  const resultsEl = document.getElementById('hospitalResults');
+  resultsEl.innerHTML = '';
+  statusEl.style.display = 'flex';
+  statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${t.locating}`;
+
+  if (!navigator.geolocation) {
+    statusEl.innerHTML = t.hospitalsErrorTitle;
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const lat = pos.coords.latitude, lon = pos.coords.longitude;
+    statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${t.searching}`;
+
+    const mapsFallback = `https://www.google.com/maps/search/hospitals/@${lat},${lon},14z`;
+
+    try {
+      const query = `[out:json][timeout:20];(node["amenity"="hospital"](around:6000,${lat},${lon});way["amenity"="hospital"](around:6000,${lat},${lon}););out center 15;`;
+      const resp = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
+      if (!resp.ok) throw new Error('overpass failed');
+      const json = await resp.json();
+      const items = (json.elements || []).map(el => {
+        const elLat = el.lat ?? (el.center && el.center.lat);
+        const elLon = el.lon ?? (el.center && el.center.lon);
+        if (elLat == null || elLon == null) return null;
+        return {
+          name: (el.tags && el.tags.name) || 'Hospital',
+          lat: elLat, lon: elLon,
+          phone: el.tags && (el.tags.phone || el.tags['contact:phone']),
+          dist: haversine(lat, lon, elLat, elLon)
+        };
+      }).filter(Boolean).sort((a,b) => a.dist - b.dist);
+
+      if (items.length) {
+        const destinations = items.slice(0, 20);
+        const coordinates = [`${lon},${lat}`, ...destinations.map(h => `${h.lon},${h.lat}`)].join(';');
+        const destinationIndexes = destinations.map((_, index) => index + 1).join(';');
+        const routeUrl = `https://router.project-osrm.org/table/v1/driving/${coordinates}?sources=0&destinations=${destinationIndexes}&annotations=duration,distance`;
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 8000);
+        try {
+          const routeResp = await fetch(routeUrl, { signal: controller.signal });
+          if (!routeResp.ok) throw new Error('routing service failed');
+          const routes = await routeResp.json();
+          const durations = routes.durations && routes.durations[0];
+          const roadDistances = routes.distances && routes.distances[0];
+          if (durations) {
+            destinations.forEach((hospital, index) => {
+              if (Number.isFinite(durations[index])) {
+                hospital.driveSeconds = durations[index];
+                hospital.roadDist = roadDistances && roadDistances[index] / 1000;
+              }
+            });
+            items.sort((a, b) => (a.driveSeconds ?? Infinity) - (b.driveSeconds ?? Infinity) || a.dist - b.dist);
+          }
+        } catch (err) {
+          // Keep straight-line ordering when driving estimates are unavailable.
+        } finally {
+          window.clearTimeout(timeoutId);
+        }
+      }
+
+      items.splice(10);
+
+      statusEl.style.display = 'none';
+
+      if (items.length === 0) {
+        resultsEl.innerHTML = `<div class="empty-note">${t.noResults}</div>
+          <a href="${mapsFallback}" target="_blank" class="locate-btn" style="text-decoration:none; background: linear-gradient(135deg,#3B82F6,#1D4ED8);"><i class="fa-solid fa-map-location-dot"></i> ${t.hospitalsErrorLink}</a>`;
+        return;
+      }
+
+      resultsEl.innerHTML = items.map(h => `
+        <div class="hospital-item">
+          <div class="hospital-info">
+            <h4>${h.name}</h4>
+            <p>${Number.isFinite(h.driveSeconds) && Number.isFinite(h.roadDist)
+              ? `${h.roadDist.toFixed(1)} km ${t.roadDistance} · ${Math.max(1, Math.round(h.driveSeconds / 60))} ${t.driveEstimate}`
+              : `${h.dist.toFixed(1)} km ${t.away}`}</p>
+          </div>
+          <div class="hospital-actions">
+            ${h.phone ? `<a href="tel:${h.phone}" class="icon-btn call"><i class="fa-solid fa-phone"></i></a>` : ''}
+            <a href="https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${h.lat},${h.lon}&travelmode=driving" target="_blank" class="icon-btn map"><i class="fa-solid fa-diamond-turn-right"></i></a>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      statusEl.style.display = 'none';
+      resultsEl.innerHTML = `<div class="empty-note">${t.hospitalsErrorTitle}</div>
+        <a href="${mapsFallback}" target="_blank" class="locate-btn" style="text-decoration:none; background: linear-gradient(135deg,#3B82F6,#1D4ED8);"><i class="fa-solid fa-map-location-dot"></i> ${t.hospitalsErrorLink}</a>`;
+    }
+  }, () => {
+    statusEl.innerHTML = t.hospitalsDenied;
+  }, { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 });
+}
+
+/* ============ SOS MODAL & CONTACTS ============ */
+function openSOS() {
+  document.getElementById('sosModal').classList.add('active');
+}
+function closeSOS() {
+  document.getElementById('sosModal').classList.remove('active');
+  document.getElementById('contactForm').classList.remove('active');
+}
+function toggleContactForm() {
+  document.getElementById('contactForm').classList.toggle('active');
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
+}
+
+async function saveContact() {
+  const name = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  if (!name || !phone) return;
+  emergencyContacts.push({ name, phone, id: Date.now().toString() });
+  await persistContacts();
+  toggleContactForm();
+  renderContacts();
+}
+
+async function deleteContact(id) {
+  emergencyContacts = emergencyContacts.filter(c => c.id !== id);
+  await persistContacts();
+  renderContacts();
+}
+
+async function persistContacts() {
+  try { await window.storage.set('emergency_contacts', JSON.stringify(emergencyContacts), false); }
+  catch (e) { /* storage unavailable, contacts stay in-memory for this session */ }
+}
+
+function renderContacts() {
+  const t = ui[currentLang];
+  const list = document.getElementById('contactsList');
+  const note = document.getElementById('noContactsNote');
+  if (emergencyContacts.length === 0) {
+    list.innerHTML = '';
+    note.style.display = 'block';
+    note.innerText = t.noContacts;
+    return;
+  }
+  note.style.display = 'none';
+  list.innerHTML = emergencyContacts.map(c => `
+    <div class="contact-item">
+      <div class="contact-info"><h4>${c.name}</h4><p>${c.phone}</p></div>
+      <div class="contact-actions">
+        <a href="tel:${c.phone}" class="icon-btn call" title="${t.callAction}"><i class="fa-solid fa-phone"></i></a>
+        <button class="icon-btn sms" onclick="sendLocation('${c.phone}')" title="${t.locationAction}"><i class="fa-solid fa-location-dot"></i></button>
+        <button class="icon-btn del" onclick="deleteContact('${c.id}')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function sendLocation(phone) {
+  const t = ui[currentLang];
+  if (!navigator.geolocation) {
+    window.location.href = `sms:${phone}?body=${encodeURIComponent(t.locationShareMsg)}`;
+    return;
+  }
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const mapsLink = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+    const body = encodeURIComponent(t.locationShareMsg + mapsLink);
+    window.location.href = `sms:${phone}?body=${body}`;
+  }, () => {
+    window.location.href = `sms:${phone}?body=${encodeURIComponent(t.locationShareMsg)}`;
+  }, { enableHighAccuracy: true, timeout: 10000 });
+}
+
+init();
+</script>
+</body>
+</html>
